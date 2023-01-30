@@ -5,3 +5,128 @@
   padding: 0;
   margin: 0;
 }
+
+.board {
+  margin: 20px;
+}
+
+.btn {
+  margin-bottom: 20px;
+  padding: 10px;
+  color: #fff;
+  font-weight: bold;
+  border: 2px solid rosybrown;
+  border-radius: 3px;
+  background-color: rosybrown;
+  transition: 0.3s;
+}
+
+.btn:hover, .btn:focus {
+  color: rosybrown;
+  background-color: #fff;
+  border-color: rosybrown;
+  cursor: pointer;
+}
+
+.btn:focus {
+  outline-color: rosybrown;
+}
+
+.tickets__list {
+  border: 2px solid rosybrown;
+  border-radius: 3px;
+  background-color: #fff;
+}
+
+.tickets__list-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  font-weight: bold;
+  color: rosybrown;
+  transition: 0.3s;
+}
+
+.tickets__list-item:not(:last-child) {
+  border-bottom: 2px solid rosybrown;
+}
+
+.tickets__list-item:hover {
+  background-color: rosybrown;
+  color: #fff;
+}
+
+.ticket__task {
+  flex: 4;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.ticket__task-check {
+  opacity: 0;
+  z-index: 15;
+  margin-right: 5px;
+  zoom: 3;
+}
+
+.ticket__task-label::before {
+  content: '\2713';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35px;
+  height: 35px;
+  color: #fff;
+  border: 1px solid rosybrown;
+  border-radius: 50%;
+  background-color: #fff;
+  text-align: center;
+}
+
+.ticket__task-check:focus+.ticket__task-label::before {
+  outline: 1px solid rosybrown;
+}
+
+.ticket__task-check:checked+.ticket__task-label::before {
+  color: rosybrown;
+  font-size: 25px;
+  line-height: 34px;
+}
+
+.ticket__task-text {
+
+}
+
+.ticket__date {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.ticket__buttons-list {
+  flex: 1;
+  /* display: flex;
+  justify-content: space-around; */
+}
+
+.ticket__buttons-item {
+  width: 35px;
+  height: 35px;
+  padding: 0 0 3px 0;
+  font-size: 20px;
+  color: rosybrown;
+  border: 1px solid rosybrown;
+  border-radius: 50%;
+  background-color: #fff;
+  transition: 0.3s;
+}
+
+.ticket__buttons-item:hover, .ticket__buttons-item:focus {
+  color: #fff;
+  border-color: #fff;
+  background-color: rosybrown;
+}
+
+.ticket__buttons-item:focus {
+  outline-color: rosybrown;
+}

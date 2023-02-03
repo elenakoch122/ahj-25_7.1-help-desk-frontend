@@ -1,3 +1,10 @@
+import Board from './Board';
+// import Modal from './Modal';
+
+// const modal = new Modal();
+const board = new Board();
+board.init();
+
 // const xhr = new XMLHttpRequest();
 
 // xhr.addEventListener('load', () => {

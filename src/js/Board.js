@@ -1,8 +1,10 @@
 import Modal from './Modal';
 import State from './State';
+import TicketFull from './TicketFull';
 
 export default class Board {
-  constructor() {
+  constructor(stateService) {
+    this.stateService = stateService;
     this.elem = document.querySelector('.board');
     this.addButton = document.querySelector('.btn');
     this.state = new State();
@@ -17,6 +19,19 @@ export default class Board {
     this.addButton.addEventListener('click', this.onAddButton);
     this.elem.addEventListener('click', this.onEditButton);
     this.elem.addEventListener('click', this.onDeleteButton);
+
+    window.addEventListener('beforeunload', () => {
+      this.stateService.save(this.state);
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const { tickets } = this.stateService.load();
+
+      if (tickets.length > 0) {
+        this.drawTickets(tickets);
+      }
+    });
+
     this.modal.init();
   }
 
@@ -38,5 +53,13 @@ export default class Board {
     const id = ticket.getAttribute('data-id');
     this.state.tickets = this.state.tickets.filter((t) => t.id !== id);
     ticket.remove();
+  }
+
+  drawTickets(tickets) {
+    tickets.forEach((t) => {
+      const ticket = new TicketFull(t.name, t.description);
+      this.state.tickets.push(ticket);
+      ticket.render();
+    });
   }
 }

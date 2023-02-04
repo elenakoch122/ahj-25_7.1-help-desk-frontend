@@ -1,9 +1,14 @@
+/* eslint-disable class-methods-use-this */
+import TicketFull from './TicketFull';
+
 export default class Modal {
-  constructor(parent) {
+  constructor(parent, state) {
+    this.state = state;
     this.parentEl = parent;
     this.elem = this.create();
-    this.inputDescription = null;
-    this.inputDescriptionFull = null;
+    this.inputName = this.elem.querySelector('.modal__input');
+    this.inputDescription = this.elem.querySelector('.modal__textarea');
+    this.editTicket = null;
 
     this.onSaveClick = this.onSaveClick.bind(this);
     this.onCancelClick = this.onCancelClick.bind(this);
@@ -13,7 +18,7 @@ export default class Modal {
     return `
       <h2 class="modal__title">Добавить тикет</h2>
 
-      <form action="">
+      <form id="modal__form">
         <label class="modal__description" for="">
           Краткое описание
           <input class="modal__input frame" type="text">
@@ -26,7 +31,7 @@ export default class Modal {
 
         <div class="modal__buttons">
           <button class="btn modal__btn modal__btn-cancel">Отмена</button>
-          <button class="btn modal__btn modal__btn-save">Ок</button>
+          <button class="btn modal__btn modal__btn-save" type="submit" form="modal__form">Ок</button>
         </div>
       </form>
     `;
@@ -35,18 +40,27 @@ export default class Modal {
   init() {
     this.parentEl.appendChild(this.elem);
 
-    const saveButton = this.elem.querySelector('.modal__btn-save');
+    const form = this.elem.querySelector('#modal__form');
     const cancelButton = this.elem.querySelector('.modal__btn-cancel');
 
-    this.inputDescription = this.elem.querySelector('.modal__input');
-    this.inputDescriptionFull = this.elem.querySelector('.modal__textarea');
-
-    saveButton.addEventListener('submit', this.onSaveClick);
+    form.addEventListener('submit', this.onSaveClick);
     cancelButton.addEventListener('click', this.onCancelClick);
   }
 
-  onSaveClick() {
+  onSaveClick(e) {
+    e.preventDefault();
 
+    if (this.editTicket) {
+      this.editTicket.name = this.inputName.value;
+      this.editTicket.description = this.inputDescription.value;
+      this.editTicket.edit();
+    } else {
+      const ticket = new TicketFull(this.inputName.value, this.inputDescription.value);
+      ticket.render();
+      this.state.tickets.push(ticket);
+    }
+
+    this.hide();
   }
 
   onCancelClick(e) {
@@ -65,9 +79,19 @@ export default class Modal {
     return modal;
   }
 
+  show(id = null) {
+    if (id) {
+      this.editTicket = this.state.tickets.find((t) => t.id === id);
+      this.inputName.value = this.editTicket.name;
+      this.inputDescription.value = this.editTicket.description;
+    }
+
+    this.elem.showModal();
+  }
+
   hide() {
+    this.inputName.value = '';
     this.inputDescription.value = '';
-    this.inputDescriptionFull = '';
     this.elem.close();
   }
 }

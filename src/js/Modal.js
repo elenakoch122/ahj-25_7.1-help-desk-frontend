@@ -1,4 +1,5 @@
 /* eslint-disable class-methods-use-this */
+import createRequest from './request';
 import TicketFull from './TicketFull';
 
 export default class Modal {
@@ -18,7 +19,7 @@ export default class Modal {
     return `
       <h2 class="modal__title">Добавить тикет</h2>
 
-      <form id="modal__form">
+      <form id="modal__form" enctype="multipart/form-data" method="POST">
         <label class="modal__description" for="">
           Краткое описание
           <input class="modal__input frame" type="text">
@@ -58,6 +59,17 @@ export default class Modal {
       const ticket = new TicketFull(this.inputName.value, this.inputDescription.value);
       ticket.render();
       this.state.tickets.push(ticket);
+
+      const data = new FormData(e.target);
+      data.append('name', this.inputName.value);
+      data.append('description', this.inputDescription.value);
+      // const response = createRequest('POST', data, 'createTicket');
+      createRequest({
+        method: 'POST',
+        data,
+        action: 'createTicket',
+        callback,
+      });
     }
 
     this.hide();

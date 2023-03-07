@@ -1,4 +1,5 @@
 import Modal from './Modal';
+import createRequest from './request';
 import State from './State';
 import TicketFull from './TicketFull';
 
@@ -53,6 +54,8 @@ export default class Board {
     const id = ticket.getAttribute('data-id');
     this.state.tickets = this.state.tickets.filter((t) => t.id !== id);
     ticket.remove();
+    console.log(typeof id);
+    createRequest('DELETE', id, 'deleteTicket');
   }
 
   drawTickets(tickets) {

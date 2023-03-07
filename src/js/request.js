@@ -1,5 +1,34 @@
-export default function createRequest(method, data, action) {
-  if (method !== 'POST') return;
+export default async function createRequest(method, data, action) {
+  if (method === 'GET') {
+    const result = await fetch(`http://localhost:5050/?method=${action}`);
+    const json = await result.json();
+    console.log(json);
+  }
+
+  if (method === 'POST') {
+    const result = await fetch(`http://localhost:5050/?method=${action}`, {
+      method,
+      body: data,
+    });
+    const json = await result.json();
+    console.log(json);
+  }
+
+  if (method === 'DELETE') {
+    const result = await fetch(`http://localhost:5050/?method=${action}&id=${data}`, {
+      method,
+      // body: data,
+      // headers: {
+      //   'Content-Type': 'multipart/form-data',
+      // },
+    });
+    const json = await result.json();
+    console.log(json);
+  }
+
+
+
+  /*if (method !== 'POST') return;
 
   const url = `http://localhost:5050?method=${action}`;
   const options = {
@@ -19,5 +48,5 @@ export default function createRequest(method, data, action) {
       // return result;
     });
 
-  console.log('responseData', responseData);
+  console.log('responseData', responseData);*/
 }

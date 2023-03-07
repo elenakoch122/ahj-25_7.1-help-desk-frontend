@@ -19,15 +19,15 @@ export default class Modal {
     return `
       <h2 class="modal__title">Добавить тикет</h2>
 
-      <form id="modal__form" enctype="multipart/form-data" method="POST">
+      <form id="modal__form" enctype="multipart/form-data">
         <label class="modal__description" for="">
           Краткое описание
-          <input class="modal__input frame" type="text">
+          <input class="modal__input frame" type="text" name="name">
         </label>
 
         <label class="modal__description" for="">
           Подробное описание
-          <textarea class="modal__textarea frame" rows="3"></textarea>
+          <textarea class="modal__textarea frame" rows="3" name="description"></textarea>
         </label>
 
         <div class="modal__buttons">
@@ -61,15 +61,13 @@ export default class Modal {
       this.state.tickets.push(ticket);
 
       const data = new FormData(e.target);
-      data.append('name', this.inputName.value);
-      data.append('description', this.inputDescription.value);
-      // const response = createRequest('POST', data, 'createTicket');
-      createRequest({
+      createRequest('POST', data, 'createTicket');
+      /*createRequest({
         method: 'POST',
         data,
         action: 'createTicket',
         callback,
-      });
+      });*/
     }
 
     this.hide();

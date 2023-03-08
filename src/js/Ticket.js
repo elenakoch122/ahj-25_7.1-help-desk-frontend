@@ -5,16 +5,26 @@ import { v4 as uuidv4 } from 'uuid';
 moment.locale('ru');
 
 export default class Ticket {
-  constructor(name) {
-    this.id = uuidv4(); // идентификатор (уникальный в пределах системы)
-    this.name = name; // краткое описание
-    this.status = false; // boolean - сделано или нет
-    this.created = moment().format('LLL'); // дата создания (timestamp)
+  constructor(obj) {
+    this.id = obj.id; // идентификатор (уникальный в пределах системы)
+    this.name = obj.name; // краткое описание
+    this.status = obj.status; // boolean - сделано или нет
+    this.created = obj.created; // дата создания (timestamp)
     this.elem = null;
     this.checkbox = null;
 
     this.changeStatus = this.changeStatus.bind(this);
   }
+  // constructor(name) {
+  //   this.id = uuidv4(); // идентификатор (уникальный в пределах системы)
+  //   this.name = name; // краткое описание
+  //   this.status = false; // boolean - сделано или нет
+  //   this.created = moment().format('LLL'); // дата создания (timestamp)
+  //   this.elem = null;
+  //   this.checkbox = null;
+
+  //   this.changeStatus = this.changeStatus.bind(this);
+  // }
 
   static get markup() {
     return `
@@ -58,6 +68,10 @@ export default class Ticket {
 
     this.checkbox = this.elem.querySelector('#check');
     this.checkbox.addEventListener('change', this.changeStatus);
+
+    if (this.status) {
+      this.checkbox.setAttribute('checked', 'checked');
+    }
   }
 
   changeStatus() {

@@ -54,15 +54,29 @@ export default class Board {
     const id = ticket.getAttribute('data-id');
     this.state.tickets = this.state.tickets.filter((t) => t.id !== id);
     ticket.remove();
-    console.log(typeof id);
-    createRequest('DELETE', id, 'deleteTicket');
+    // createRequest('DELETE', id, 'deleteTicket');
+    createRequest({
+      method: 'DELETE',
+      data: id,
+      action: 'deleteTicket',
+      // callback: (response) => {
+      //   const ticket = new TicketFull(response);
+      //   ticket.render();
+      //   this.state.tickets.push(ticket);
+      // },
+    });
+    console.log('state', this.state.tickets);
   }
 
   drawTickets(tickets) {
     tickets.forEach((t) => {
-      const ticket = new TicketFull(t.name, t.description);
+      const ticket = new TicketFull(t);
+      // const ticket = new TicketFull(t.name, t.description);
+      // ticket.created = t.created;
+      // ticket.status = t.status;
       this.state.tickets.push(ticket);
       ticket.render();
+      console.log(ticket);
     });
   }
 }

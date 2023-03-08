@@ -56,12 +56,24 @@ export default class Modal {
       this.editTicket.description = this.inputDescription.value;
       this.editTicket.edit();
     } else {
-      const ticket = new TicketFull(this.inputName.value, this.inputDescription.value);
-      ticket.render();
-      this.state.tickets.push(ticket);
-
       const data = new FormData(e.target);
-      createRequest('POST', data, 'createTicket');
+      // const response = createRequest('POST', data, 'createTicket');
+      createRequest({
+        method: 'POST',
+        data,
+        action: 'createTicket',
+        callback: (response) => {
+          const ticket = new TicketFull(response);
+          ticket.render();
+          this.state.tickets.push(ticket);
+        },
+      });
+      console.log('state', this.state.tickets);
+      /*const ticket = new TicketFull(response);
+      // const ticket = new TicketFull(this.inputName.value, this.inputDescription.value);
+      ticket.render();
+      this.state.tickets.push(ticket);*/
+
       /*createRequest({
         method: 'POST',
         data,
